@@ -1,0 +1,59 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity <entity_name> is
+	port
+	(
+		-- Input ports
+		A, B		:	in  std_logic_vector (7 downto 0);
+		ALU_Sel	:	in	std_logic_vector (2 downto 0);
+		-- Output ports
+		<name>	: out <type>
+	);
+end <entity_name>;
+
+
+architecture <arch_name> of <entity_name> is
+
+	Component ALU
+		port
+			(
+				-- Input ports
+				A, B		:	in  std_logic_vector (7 downto 0);
+				ALU_Sel	:	in	 std_logic_vector (2 downto 0);
+
+				-- Output ports
+				Result	:	out std_logic_vector (7 downto 0);
+				NZVC		:	out std_logic_vector (3 downto 0);
+				
+			);
+	end Component;
+	
+	Component BCD7Seg
+		port
+		(
+			-- Input ports
+			IA,IB, IC, ID : in STD_LOGIC;
+			-- Output ports
+			F : out std_logic_vector (6 downto 0)
+		);
+	end Component;
+	
+	signal sig_signo : std_logic;
+	signal vec_NZVC  : std_logic_vector (3 downto 0);
+	signal resultado : std_logic_vector (7 downto 0);
+
+begin
+
+	sig_signo <= vec_NZVC(3);
+	
+	signo : process ()
+	begin
+		if (sig_signo = '1') then
+			resultado <= not resultado;
+			resultado <= resultado + 1;
+		end if;
+	end process;
+
+end <arch_name>;
